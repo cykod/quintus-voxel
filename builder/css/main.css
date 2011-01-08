@@ -2,6 +2,10 @@ body {
 	font-size: 10px;
 }
 
+a img {
+	border: none;
+}
+
 #container {
 	width: 1024px;
 }
@@ -17,8 +21,8 @@ body {
 	top: -60px;
 	right: -60px;
 	
-	
 }
+
 
 #toolSize li{
 	margin-bottom: 5px;

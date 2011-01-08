@@ -4,10 +4,14 @@
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>ObjectTitle</title>
 		<link rel="stylesheet" href="css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">	
-		<link type="text/css" href="css/custom-theme/jquery-ui-1.8.7.custom.css" rel="stylesheet" />
+		<link type="text/css" href="css/excite-bike/jquery-ui-1.8.7.custom.css" rel="stylesheet" />	
 		<link rel="stylesheet" href="css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
-		<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+		<link id="bespin_base" href="js/"/>
+		<script src="js/BespinEmbedded.js"></script>
+		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8.7.custom.min.js"></script>
+
+
 		<script type="text/javascript">
 			$(function(){
 
@@ -74,6 +78,7 @@
 				<ul>
 					<li><a href="#tabs-1">Object</a></li>
 					<li><a href="#tabs-2">Arena</a></li>
+					<li><a href="#tabs-3">Code Editor</a></li>
 				</ul>
 				
 				<!--Object -->
@@ -84,18 +89,18 @@
 					
 					
 					<ul id="objectsMenu">
-					
-						
-					
-						<li>
-							<ul id="fileManagement">	
-							<li id="openFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open"></span></li>
-							<li id="saveFile" class="ui-state-default ui-corner-all" title=".ui-icon-document"><span class="ui-icon ui-icon-document"></span></ul>
-								
-								</li>
-							
+
 							<li>
-								<br>
+								
+									<ul id="fileManagement">	
+									<li id="openFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open"></span></li>
+									<li id="saveFile" class="ui-state-default ui-corner-all" title=".ui-icon-document"><span class="ui-icon ui-icon-document"></span>
+									<li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>	
+
+									</ul>
+								
+								
+								<li><br></li>
 							<a href="/" id="cubeButton"><img src="img/cube.png" alt=" " /></a></li>
 						
 								
@@ -112,7 +117,11 @@
 								<ul id="toolSize" class="ui-widget ui-helper-clearfix">
 								<li id="chiselIncrease" class="ui-state-default ui-corner-all" title=".ui-icon-plusthick"><span class="ui-icon ui-icon-plusthick"></span></li>
 								<li id="chiselDecrease" class="ui-state-default ui-corner-all" title=".ui-icon-minusthick"><span class="ui-icon ui-icon-minusthick"></span></li>
-								</ul>
+							</ul>
+							
+						
+					
+							
 					</ul>
 					
 					
@@ -127,6 +136,22 @@
 				
 				
 				<div id="tabs-2">Phasellus mattis tincidunt nibh. Cras orci urna, blandit id, pretium vel, aliquet ornare, felis. Maecenas scelerisque sem non nisl. Fusce sed lorem in enim dictum bibendum.</div>
+			
+			
+					<!-- Code Editor -->
+			
+				
+				<div id="tabs-3">
+					
+						<ul id="fileManagement">	
+						<li id="openFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open"></span></li>
+						<li id="saveFile" class="ui-state-default ui-corner-all" title=".ui-icon-document"><span class="ui-icon ui-icon-document"></span>
+						<li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>	
+
+						</ul>
+					<textarea class="bespin" name="objectCode" rows="40" cols="120"></textarea>
+				
+				</div>
 			</div>
 		</div>
 		
