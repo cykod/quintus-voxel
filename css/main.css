@@ -1,0 +1,38 @@
+body {
+	font-size: 10px;
+}
+
+#container {
+	width: 1024px;
+}
+
+#objectsMenu {
+	list-style-type:none;
+	width: 180px;
+}
+#toolSize {
+	width: 18px;
+	list-style-type: none;
+	position:relative;
+	top: -60px;
+	right: -60px;
+	
+	
+}
+
+#toolSize li{
+	margin-bottom: 5px;
+}
+
+#fileManagement {
+	list-style-type: none;
+}
+
+#fileManagement li{
+	width: 18px;
+	float: left;
+}
+
+#objectCanvas{
+	float: left;
+}
