@@ -18,63 +18,29 @@
 	<script src='js/Three/WebGLRenderer2.js'></script>
 
 	<script src='js/Quintus.js'></script>
+        <script src='js/scenes/scene_demo.js'></script>
 
 
 
 		<script type="text/javascript">
-			$(function(){
+                  var initialized = false;
 
-				// Accordion
-				$("#accordion").accordion({ header: "h3" });
-	
-				// Tabs
-				$('#tabs').tabs();
-	
+                  $(function(){
 
-				// Dialog			
-				$('#dialog').dialog({
-					autoOpen: false,
-					width: 600,
-					buttons: {
-						"Ok": function() { 
-							$(this).dialog("close"); 
-						}, 
-						"Cancel": function() { 
-							$(this).dialog("close"); 
-						} 
-					}
-				});
-				
-				// Dialog Link
-				$('#dialog_link').click(function(){
-					$('#dialog').dialog('open');
-					return false;
-				});
 
-				// Datepicker
-				$('#datepicker').datepicker({
-					inline: true
-				});
-				
-				// Slider
-				$('#slider').slider({
-					range: true,
-					values: [17, 67]
-				});
-				
-				// Progressbar
-				$("#progressbar").progressbar({
-					value: 20 
-				});
-				
-				//hover states on the static widgets
-				$('#dialog_link, ul#icons li').hover(
-					function() { $(this).addClass('ui-state-hover'); }, 
-					function() { $(this).removeClass('ui-state-hover'); }
-				);
+                      // Tabs
+                      QuintusBuilder.initialize($("#builder"));
 
-                                QuintusBuilder.initialize($("#builder"));
-			});
+                      $('#tabs').tabs();
+                      $('#tabs').bind('tabsselect', function(event, ui) {
+                          if(!initialized && ui.index == 1) {
+                            initialized = true;
+                            QuintusRenderer.initialize($("#arena"));
+                            QuintusRenderer.setScene(Scene1);
+                          }
+                        });
+
+                      });
 		</script>
 		
 		
@@ -143,11 +109,10 @@
 				</div>
 				
 				
+                                <div id='tabs-2'>
 				<!-- Arena -->
-				
-				
-				
-				<div id="tabs-2">Phasellus mattis tincidunt nibh. Cras orci urna, blandit id, pretium vel, aliquet ornare, felis. Maecenas scelerisque sem non nisl. Fusce sed lorem in enim dictum bibendum.</div>
+			                              <div id='arena'></div>
+                                </div>
 			
 			
 					<!-- Code Editor -->

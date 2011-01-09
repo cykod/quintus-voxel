@@ -8,20 +8,20 @@ var QuintusRenderer = {};
   var currentScene = null;
   var dimensions = {}
 
-  q.initialize  = function(width,height) {
+  q.initialize  = function(dom) {
 
     q.renderer = new THREE.WebGLRenderer2( false );
-    q.renderer.setSize(width, height);
-    dimensions.w = width;
-    dimensions.h = height;
 
-    document.body.appendChild( q.renderer.domElement );
+    dimensions = { w: $(dom).width(), h: $(dom).height() };
+    q.renderer.setSize(dimensions.w,dimensions.h);
+
+    dom[0].appendChild(q.renderer.domElement);
 
     q.stats = new Stats();
     q.stats.domElement.style.position = 'absolute';
     q.stats.domElement.style.top = '0px';
     q.stats.domElement.style.zIndex = 100;
-    document.body.appendChild( q.stats.domElement );
+    dom[0].appendChild(q.stats.domElement);
 
     q.keys = {};
     q.setupCamera();

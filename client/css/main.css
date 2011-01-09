@@ -44,4 +44,6 @@ a img {
 
 #builder { float:left;  width:600px; height:400px; }
 
+#arena { position:relative; width:960px; height:600px; }
+
 .clear { clear:both; }
