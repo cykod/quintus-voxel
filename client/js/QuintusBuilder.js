@@ -193,7 +193,7 @@ var QuintusBuilder = {};
     $.each(objects,function() {
      scene.removeObject(this.object);
     });
-    q.objects =[];
+    objects =[];
   }
 
   function removeVoxel(object) {

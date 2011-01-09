@@ -111,22 +111,49 @@ var QuintusScene = function() {
   }
 
 
+
+
   this.collide = function(o1) {
     for(var i=0,len = this.objects.length;i<len;i++) {
       var o2 = this.objects[i];
       if(o1 != o2) {
-        if(o1 != o2 && o1.collide(o2)) return o2;
+        var col = o1.collide(o2);
+        if(col) return col;
       }
     }
     return false;
   }
 }
 
+var QMaterials = {};
+(function(m) {
+   var materials = {};
+
+   materials['blue'] = new THREE.MeshBasicMaterial( { color: 0x0000ff, opacity: 0.5 } );
+   materials['grass'] = new THREE.MeshBasicMaterial( { map: ImageUtils.loadTexture( 'img/grass_subtle.jpg')} );
+
+   materials['red'] = new THREE.MeshLambertMaterial({ color: 0xFF0000, shading: THREE.SmoothShading });
+   materials['concrete']  = new THREE.MeshLambertMaterial( { map: ImageUtils.loadTexture( 'img/concrete.jpg'), shading: THREE.SmoothShading } );
+ 
+   materials['default'] = materials['red'];
+
+   m.lookup = function(name) {
+     return materials[name];
+   }
+  
+})(QMaterials);
+
+
 var BASE_DIM = 16;
 var VoxelCube = new Cube(BASE_DIM,BASE_DIM,BASE_DIM);
 var VoxelGravity = new THREE.Vector3(0,-98,0);
 
 var Voxel = function(dim,material) {
+  if(material instanceof String) {
+    material = QMaterials.lookup(material);
+  }
+  if(!material) material = QMaterials.lookup('default');
+
   if(false === (this instanceof Voxel)) {
     return new Voxel(dim,material);
   }
@@ -141,7 +168,7 @@ var Voxel = function(dim,material) {
 }
 
 Voxel.prototype.step = function(dt) {
-  if(!this.grouped) {
+  if(!this.group) {
     this.velocity.addSelf(new THREE.Vector3(VoxelGravity.x * dt,
                                           VoxelGravity.y * dt,
                                           VoxelGravity.z * dt));
@@ -166,6 +193,11 @@ Voxel.prototype.addTo = function(qscene) {
   return this;
 }
 
+Voxel.prototype.addToGroup = function(group) {
+  this.group = group;
+  return this;
+}
+
 
 Voxel.prototype.collide = function(obj,t) {
   if (!t) t=0;
@@ -178,13 +210,14 @@ Voxel.prototype.eachBlock = function(block,collideMethod) {
 
 Voxel.prototype.blockCollide = function(o1,o2) {
   t=0;
-  return !((o1.position.y+o1.h/2-t<o2.position.y-o2.h/2) || 
+  var collide = !((o1.position.y+o1.h/2-t<o2.position.y-o2.h/2) || 
            (o1.position.y-o1.h/2+t> o2.position.y+o2.h/2-t) || 
            (o1.position.x+o1.w/2-t<o2.position.x-o2.w/2+t) || 
            (o1.position.x-o1.w/2+t>o2.position.x+o2.w/2-t) || 
            (o1.position.z+o1.d/2-t<o2.position.z-o2.d/2+t) || 
            (o1.position.z-o1.d/2+t>o2.position.z+o2.d/2-t));
 
+  return collide;
 }
 
 
@@ -224,26 +257,142 @@ Voxel.prototype.backOff = function(o2) {
 
 
 VoxelGroup  = function(dim,voxelData) {
-  if(false === (this instanceof Voxel)) {
-    return new VoxelGroup(dim,data);
+  if(false === (this instanceof VoxelGroup)) {
+    return new VoxelGroup(dim,voxelData);
   }
 
   this.objects = []
 
-  for(var i=0,len=voxelData.length;i<len;i++) {
 
+  for(var i=0,len=voxelData.length;i<len;i++) {
+    var v = voxelData[i];
+
+    this.objects.push(new Voxel(dim,v.material).pos(v.x*dim*BASE_DIM,
+                                                    v.y*dim*BASE_DIM,
+                                                    v.z*dim*BASE_DIM).addToGroup(this));
   }
 
-  this.o = new THREE.Mesh(VoxelCube,material);
-  this.o.scale = this.scale = new THREE.Vector3(dim,dim,dim);
-  this.w = this.h = this.d = BASE_DIM * dim;
-  this.velocity = new THREE.Vector3();
-  this.position = this.o.position;
+  this.velocity = new THREE.Vector3(0,0,0);
+  this.position = new THREE.Vector3(0,0,0);
+
+  this.scale = new THREE.Vector3(dim,dim,dim);
   return this;
+}
+
+VoxelGroup.prototype.addTo = function(qscene) {
+  qscene.add(this);
+  return this;
+}
+
+
+VoxelGroup.prototype.step = function(dt) {
+  this.velocity.addSelf(new THREE.Vector3(VoxelGravity.x * dt,
+     VoxelGravity.y * dt,
+     VoxelGravity.z * dt));
+  this.pos(this.position.clone().addSelf(new THREE.Vector3(this.velocity.x * dt,
+                                         this.velocity.y * dt,
+                                         this.velocity.z * dt)));
+
+  if(this.position.y - (this.scale.y*BASE_DIM/2) < 0)  {
+    var newPos = this.position.clone();
+    newPos.y = this.scale.y*BASE_DIM/2;
+    this.pos(newPos);
+    this.velocity.set(0,0,0);
+  }
+}
+
+
+
+VoxelGroup.prototype.pos = function(x,y,z) {
+  if(x instanceof THREE.Vector3) {
+    y = x.y;
+    z = x.z;
+    x = x.x;
+  }
+  var diff = new THREE.Vector3(x,y,z).subSelf(this.position);
+
+  return this.move(diff);
+
+ }
+
+VoxelGroup.prototype.move = function(diff) {
+  this.each(function(o) {
+    o.position.addSelf(diff);
+  });
+
+  this.position.addSelf(diff);
+  return this;
+
 }
 
 VoxelGroup.prototype.each = function(f) {
   for(var i=0,len=this.objects.length;i<len;i++) {
     f(this.objects[i]);
   }
+}
+
+
+VoxelGroup.prototype.detect = function(matcher) {
+    for(var i=0,len=this.objects.length;i<len;i++) {
+      var obj = this.objects[i];
+      var result = matcher(obj);
+      if(result) return result;
+    }
+    return false;
+  }
+
+VoxelGroup.prototype.collide = function(obj,t) {
+  if (!t) t=0;
+  // Return the blocks that collided
+  var blocks = this.detect(function(o2) { 
+    var col = obj.eachBlock(o2,Voxel.prototype.blockCollide); 
+    return col ? [ o2, col ] : null;
+  });
+  return blocks;
+}
+
+VoxelGroup.prototype.eachBlock = function(block,collideMethod) {
+  return this.detect(function(o2) { 
+      return collideMethod(block,o2) ? o2 : null;
+    });
+}
+
+
+VoxelGroup.prototype.backOff = function(objects) {
+  this.velocity.set(0,0,0);
+
+  var myobj = objects[0];
+  var otherobj = objects[1];
+
+  var diff =myobj.position.clone().subSelf(otherobj.position);
+
+  diff.x = Math.abs(diff.x);
+  diff.y = Math.abs(diff.y);
+  diff.z = Math.abs(diff.z);
+
+  var mypos = myobj.position.clone();
+  var otherpos = otherobj.position;
+
+  if(diff.y >= diff.x && diff.y >= diff.z) {
+     if(mypos.y < otherpos.y) {
+       mypos.y = otherpos.y - otherobj.h/2 - myobj.h/2 - 0.01;
+     } else {
+       mypos.y = otherpos.y + otherobj.h/2 + myobj.h/2 + 0.01;
+     }
+   } else if(diff.x >= diff.z) {
+    if(mypos.x < otherpos.x) {
+      mypos.x = otherpos.x - otherobj.w/2 - myobj.w/2 - 0.01;
+    } else {
+      mypos.x = otherpos.x + otherobj.w/2 + myobj.w/2 + 0.01;
+    }
+   } else {
+     if(mypos.z < otherpos.z) {
+       mypos.z = otherpos.z - otherobj.d/2 - myobj.d/2 - 0.01;
+     } else {
+       mypos.z = otherpos.z + otherobj.d/2 + myobj.d/2 + 0.01;
+     }
+   }
+
+   var enddiff = mypos.subSelf(myobj.position);
+   this.move(enddiff);
 }

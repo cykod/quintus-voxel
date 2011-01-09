@@ -6,19 +6,16 @@
       this.scene = new THREE.Scene();
       this.particles = [];
 
-      this.material =new THREE.MeshBasicMaterial( { color: 0x0000ff, opacity: 0.5 } ) 
-
-      this.material2 = new THREE.MeshBasicMaterial( { map: ImageUtils.loadTexture( 'img/grass_subtle.jpg')} );
-
-      this.material3 = new THREE.MeshLambertMaterial({ color: 0xFF0000, shading: THREE.SmoothShading });
-      this.material4 = new THREE.MeshLambertMaterial( { map: ImageUtils.loadTexture( 'img/concrete.jpg'), shading: THREE.SmoothShading } );
-
-      Voxel(1,this.material).pos(0, 300, 20).addTo(this);
+    
+      //Voxel(4,QMaterials.lookup('blue')).pos(0, 300, 20).addTo(this);
       //   Voxel(1,this.material2).pos(500, 400, 0).addTo(this);
       //   Voxel(1,this.material2).pos(500, 400, 256).addTo(this);
-      Voxel(1,this.material2).pos(0, 600, 0).addTo(this);
+      //Voxel(4,QMaterials.lookup('red')).pos(0, 600, 0).addTo(this);
+      //
 
-      this.plane = new THREE.Mesh(new Plane(1024,1024,16,16),this.material2);
+      //VoxelGroup(10,[ { x:0, y:0, z:0 }, { x:1, y:0, z:0 }, { x:0, y:0, z:1 } ]).pos(0,200,0).addTo(this);
+     //
+      this.plane = new THREE.Mesh(new Plane(1024,1024,16,16),QMaterials.lookup('grass'));
       this.plane.rotation.x =  -Math.PI/2;
       //this.plane.rotation.z = -Math.PI/2;
       this.scene.addObject(this.plane);
@@ -44,9 +41,12 @@
 
     Scene1.keyPress = function(key) {
       if(key == 'space') {
-        Voxel(Math.random()*5,this.material4).pos(Math.random()*1024 - 512,
-        2048,
-        Math.random()*1024 - 512).addTo(this);
+/*        VoxelGroup(Math.random()*5,QuintusBuilder.getObjects()).pos(Math.random()*1024 - 512,
+        500,
+        Math.random()*1024 - 512).addTo(this); */
+
+        VoxelGroup(1,QuintusBuilder.getObjects()).pos(0,500,0).addTo(this);
+      //  Math.random()*1024 - 512).addTo(this); 
       }
 
     }
