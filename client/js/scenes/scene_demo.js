@@ -14,8 +14,8 @@
       //
 
       //VoxelGroup(10,[ { x:0, y:0, z:0 }, { x:1, y:0, z:0 }, { x:0, y:0, z:1 } ]).pos(0,200,0).addTo(this);
-     //
-      this.plane = new THREE.Mesh(new Plane(1024,1024,16,16),QMaterials.lookup('grass'));
+
+      this.plane = new THREE.Mesh(new Plane(1024,1024,32,32),QMaterials.lookup('grass'));
       this.plane.rotation.x =  -Math.PI/2;
       //this.plane.rotation.z = -Math.PI/2;
       this.scene.addObject(this.plane);
@@ -49,5 +49,10 @@
       //  Math.random()*1024 - 512).addTo(this); 
       }
 
+    }
+
+    Scene1.intersectionClick = function(intersect) {
+      var pt = intersect.point;
+      VoxelGroup(1,QuintusBuilder.getObjects()).pos(pt.x,pt.y+500,pt.z).addTo(this);
     }
 

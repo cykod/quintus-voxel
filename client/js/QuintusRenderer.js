@@ -5,12 +5,20 @@ var QuintusRendererBuilder = function(q) {
   var KEY_CODES = { 37:'left', 39:'right', 38:'up', 40:'down', 32:'space' };
   var currentScene = null;
   var dimensions = {}
+  var projector = null;
+
+  var mouse2D, mouse3D, ray,
+  rollOveredFace, isShiftDown = false,
+  isCtrlDown = false;
+  var offset = {};
 
   q.initialize  = function(dom) {
+    this.dom = dom;
 
     q.renderer = new THREE.WebGLRenderer( false );
 
     dimensions = { w: $(dom).width(), h: $(dom).height() };
+
     q.renderer.setSize(dimensions.w,dimensions.h);
 
     dom[0].appendChild(q.renderer.domElement);
@@ -24,6 +32,7 @@ var QuintusRendererBuilder = function(q) {
     q.keys = {};
     q.setupCamera();
 
+
     setInterval(q.loop, 1000 / 60);
 
     $(window).keydown(function(event) {
@@ -36,6 +45,10 @@ var QuintusRendererBuilder = function(q) {
       if(KEY_CODES[event.keyCode]) q.keys[KEY_CODES[event.keyCode]] = false;
     });
 
+
+    dom.bind( 'mousedown', q.mouseClick, false );
+    dom.bind( 'mousemove', q.mouseMove, false );
+
   }
 
   q.setupCamera = function() {
@@ -45,8 +58,35 @@ var QuintusRendererBuilder = function(q) {
     q.camera.position.y = 512;
     q.updateCamera();
 
+    projector = new THREE.Projector();
+
+    mouse2D = new THREE.Vector3( 0, 10000, 0.5 );
+    ray = new THREE.Ray( q.camera.position, null );
   //  q.camera.projectionMatrix = THREE.Matrix4.makeOrtho( dimensions.w / - 2, dimensions.w / 2, dimensions.h / 2, dimensions.h / - 2, -2500, 2500 );
     
+  }
+
+  q.mouseMove = function(event) {
+   event.preventDefault();
+
+    var offset = $(q.dom).offset();
+
+    mouse2D.x = ( (event.clientX - offset.left) / dimensions.w) * 2 - 1;
+    mouse2D.y = -( ( event.clientY - offset.top) / dimensions.h) * 2 + 1;
+  }
+
+  q.mouseClick = function(event) {
+    event.preventDefault();
+
+    var intersects = ray.intersectScene( currentScene.scene);
+
+    if ( intersects.length > 0 ) {
+      
+      if(currentScene.intersectionClick) {
+       currentScene.intersectionClick(intersects[0]);
+      }
+    }
+
   }
 
   q.updateCamera = function() {
@@ -57,10 +97,6 @@ var QuintusRendererBuilder = function(q) {
     q.camera.position.x = Math.sin(q.cameraAngle) * 1024;
     q.camera.position.z = Math.cos(q.cameraAngle) * 1024;
 
-    /*q.camera.target.position.x = 256;
-    q.camera.target.position.y = 128;
-    q.camera.target.position.z = 256;
-    */
     q.camera.updateMatrix();
   }
 
@@ -72,6 +108,10 @@ var QuintusRendererBuilder = function(q) {
   q.loop = function() {
     if(currentScene && Quintus.active == 'arena') { 
       q.updateCamera();
+
+      mouse3D = projector.unprojectVector( mouse2D.clone(), q.camera );
+      ray.direction = mouse3D.subSelf( q.camera.position ).normalize();
+
       currentScene.stepCore(60/1000);
       q.renderer.render(currentScene.scene,q.camera);
       q.stats.update();
