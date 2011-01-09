@@ -2,26 +2,26 @@
 <html>
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-		<title>ObjectTitle</title>
+		
+		
+		
+		<title>Quintus</title>
+		
+		
 		<link rel="stylesheet" href="css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">	
 		<link type="text/css" href="css/excite-bike/jquery-ui-1.8.7.custom.css" rel="stylesheet" />	
 		<link rel="stylesheet" href="css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
-		<link id="bespin_base" href="js/"/>
-		<script src="js/BespinEmbedded.js"></script>
+	
 		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8.7.custom.min.js"></script>
-	<script src='js/Three/Three.js'></script>
-	<script src='js/Three/Cube.js'></script>
-	<script src='js/Three/Plane.js'></script>
-	<script src='js/Three/Stats.js'></script>
-	<script src='js/Three/ImageUtils.js'></script>
-	<script src='js/Three/WebGLRenderer2.js'></script>
-
-	<script src='js/Quintus.js'></script>
+		<script src='js/Three/Three.js'></script>
+		<script src='js/Three/Cube.js'></script>
+		<script src='js/Three/Plane.js'></script>
+		<script src='js/Three/Stats.js'></script>
+		<script src='js/Three/ImageUtils.js'></script>
+		<script src='js/Three/WebGLRenderer2.js'></script>
+		<script src='js/Quintus.js'></script>
         <script src='js/scenes/scene_demo.js'></script>
-
-
-
 		<script type="text/javascript">
                   var initialized = false;
 
@@ -46,88 +46,95 @@
 		
 	</head>
 	
-	<body>
-		
-		
+	<body>		
 		<div id="container">
 			<div id="tabs">
+				
+<!-- Jquery Tabs for Menu-->
+				
 				<ul>
 					<li><a href="#tabs-1">Object</a></li>
 					<li><a href="#tabs-2">Arena</a></li>
 					<li><a href="#tabs-3">Code Editor</a></li>
 				</ul>
 				
-				<!--Object -->
+<!--Object Editor -->
 				
-				<div id="tabs-1">
-					
-					<!-- OBJECTS MENU -->
-					
-					
+				<div id="tabs-1">		
 					<ul id="objectsMenu">
+						<li>
+							
+<!-- File Management -->
+							
+							<ul id="fileManagement">	
+								<li id="openFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open"></span></li>
+								<li id="saveFile" class="ui-state-default ui-corner-all" title=".ui-icon-document"><span class="ui-icon ui-icon-document"></span>
+								<li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>	
 
-							<li>
-								
-									<ul id="fileManagement">	
-									<li id="openFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open"></span></li>
-									<li id="saveFile" class="ui-state-default ui-corner-all" title=".ui-icon-document"><span class="ui-icon ui-icon-document"></span>
-									<li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>	
-
-									</ul>
-								
-								
-								<li><br></li>
-							<a href="/" id="cubeButton"><img src="img/cube.png" alt=" " /></a></li>
+							</ul>
 						
-								
-								
-								<ul id="toolSize" class="ui-widget ui-helper-clearfix">
-								<li id="cubeIncrease" class="ui-state-default ui-corner-all" title=".ui-icon-plusthick"><span class="ui-icon ui-icon-plusthick"></span></li>
-										<li id="cubeDecrease" class="ui-state-default ui-corner-all" title=".ui-icon-minusthick"><span class="ui-icon ui-icon-minusthick"></span></li>
+<!-- CUBE BUTTON -->	
+						
+								<li>
+							<a href="/" id="cubeButton"><img src="img/cube.png" alt=" " /></a>
+								</li>								
+								<div id="cubeSize">
+									<ul id="toolSize" class="ui-widget ui-helper-clearfix">
+									<li id="cubeIncrease" class="ui-state-default ui-corner-all" title=".ui-icon-plusthick"><span class="ui-icon ui-icon-plusthick"></span></li>
+									<li id="cubeDecrease" class="ui-state-default ui-corner-all" title=".ui-icon-minusthick"><span class="ui-icon ui-icon-minusthick"></span></li>
 								</ul>
+								</div>
 								
 						<li>
+
+<!-- CHISEL BUTTON -->
 							
 							<a href="/" id="chiselButton">
 							<img  src="img/chisel.png" alt=" " /></a></li>
-								<ul id="toolSize" class="ui-widget ui-helper-clearfix">
+								<div id="chiselSize">
+									<ul id="toolSize" class="ui-widget ui-helper-clearfix">
 								<li id="chiselIncrease" class="ui-state-default ui-corner-all" title=".ui-icon-plusthick"><span class="ui-icon ui-icon-plusthick"></span></li>
 								<li id="chiselDecrease" class="ui-state-default ui-corner-all" title=".ui-icon-minusthick"><span class="ui-icon ui-icon-minusthick"></span></li>
-							</ul>
-							
-						
+							</ul>		
+								</div>
 					
 							
 					</ul>
 					
+		
 				        <div id='builder'>
                                         </div>
-					<!-- OBJECTS CANVAS -->
+<!-- OBJECTS CANVAS -->
 					
 					
                                         <div class='clear'></div>
 				</div>
 				
 				
+				
+			
+				
                                 <div id='tabs-2'>
-				<!-- Arena -->
+<!-- Arena -->
 			                              <div id='arena'></div>
                                 </div>
 			
 			
-					<!-- Code Editor -->
+<!-- Code Editor -->
 			
 				
 				<div id="tabs-3">
 					
 						<ul id="fileManagement">	
-						<li id="openFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open"></span></li>
-						<li id="saveFile" class="ui-state-default ui-corner-all" title=".ui-icon-document"><span class="ui-icon ui-icon-document"></span>
-						<li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>	
+							<li id="openFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open"></span></li>
+							<li id="saveFile" class="ui-state-default ui-corner-all" title=".ui-icon-document"><span class="ui-icon ui-icon-document"></span>
+							<li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>	
 
 						</ul>
-					<textarea class="bespin" name="objectCode" rows="40" cols="120"></textarea>
-				
+						
+						<div id="ediot">						
+							<textarea class="codeEditor" name="objectCode" rows="40" cols="120"></textarea>
+						</div>
 				</div>
 			</div>
 		</div>
