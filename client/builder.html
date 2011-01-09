@@ -2,26 +2,21 @@
 <html>
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-		
-		
-		
 		<title>Quintus</title>
-		
-		
 		<link rel="stylesheet" href="css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">	
 		<link type="text/css" href="css/excite-bike/jquery-ui-1.8.7.custom.css" rel="stylesheet" />	
 		<link rel="stylesheet" href="css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	
 		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8.7.custom.min.js"></script>
-		<script src='js/Three/Three.js'></script>
-		<script src='js/Three/Cube.js'></script>
-		<script src='js/Three/Plane.js'></script>
+                <script type='text/javascript' src='js/jquery.Storage.js'></script>
+		<script src='js/Three/ThreeExtras.js'></script>
 		<script src='js/Three/Stats.js'></script>
-		<script src='js/Three/ImageUtils.js'></script>
-		<script src='js/Three/WebGLRenderer2.js'></script>
 		<script src='js/Quintus.js'></script>
-        <script src='js/scenes/scene_demo.js'></script>
+                <script src='js/QuintusRenderer.js'></script>
+		<script src='js/QuintusBuilder.js'></script>
+                <script src='js/scenes/scene_demo.js'></script>
+                <script src='js/QStorage.js'></script>
 		<script type="text/javascript">
                   var initialized = false;
 
@@ -31,15 +26,21 @@
                       // Tabs
                       QuintusBuilder.initialize($("#builder"));
 
-                      $('#tabs').tabs();
                       $('#tabs').bind('tabsselect', function(event, ui) {
                           if(!initialized && ui.index == 1) {
                             initialized = true;
                             QuintusRenderer.initialize($("#arena"));
                             QuintusRenderer.setScene(Scene1);
                           }
+                          if(ui.index == 0) {
+                            Quintus.active = 'builder';
+                          } else if(ui.index == 1) {
+                            Quintus.active = 'arena';
+                          }
                         });
 
+                      Quintus.active = 'builder'
+                      $('#tabs').tabs();
                       });
 		</script>
 		
