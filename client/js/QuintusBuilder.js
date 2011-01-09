@@ -50,7 +50,8 @@ var QuintusBuilder = {};
 
     var code =objectData['code']
     // Set code text area
-
+	$("#objectCode").val(code);
+	
     q.clear();
 
     $.each(objList,function() {
@@ -58,8 +59,8 @@ var QuintusBuilder = {};
     });
   }
 
-  q.saveObject = function(name) {
-   var code= ''; // Set this; 
+  q.saveObject = function(name, code) {
+   // Set this; 
    QStorage.saveObject(name,objects,code);
   }
 

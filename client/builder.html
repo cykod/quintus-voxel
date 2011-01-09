@@ -66,12 +66,13 @@
 						
 				
  					
-						$('#saveObjectFile').click(function(){
+						$('.saveObjectFile').click(function(){
 							if($('#objectName').val() ==''){
-								alert("Please Enter an Object Name")
+							alert("Please Enter an Object Name")
 							} else {
 								
-								QuintusBuilder.saveObject($('#objectName').val());
+								QuintusBuilder.saveObject($('#objectName').val(), $('#objectCode').val());
+								
 								alert("Saved Object " + $('#objectName').val())
 							}
 							
@@ -80,7 +81,7 @@
 						});
 				//Load
 						
-						$('#openObjectFile').click(function(){
+						$('.openObjectFile').click(function(){
 							
 								
 							
@@ -89,9 +90,16 @@
 							$('.objectOpenDialogue').click(function(){
 								$('#objectName').val($(this).data("name"));
 								QuintusBuilder.loadObject($(this).data("name"));
+
 							});
 						});
-					
+				// Clear
+				
+						$(".newObjectFile").click(function(){
+							QuintusBuilder.clear();
+							$('#objectName').val('');
+							$('#objectCode').val('');
+						});
 					
 					
 					
@@ -164,10 +172,10 @@
                                         <div class='clear'></div>
 											<div>
 												<ul id="objectFileManagement">								
-													<li id="newObjectFile" class="ui-state-default ui-corner-all fileManagement" title=".ui-icon-document"><span class="ui-icon ui-icon-document"></span>	
-													<li id="openObjectFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open fileManagement"></span></li>
-													<li id="saveObjectFile" id class="ui-state-default ui-corner-all ui-state-default" title=".ui-icon-arrowthick-1-n"><span class="ui-icon ui-icon-arrowthick-1-n fileManagement"></span></li>			
-													<li id="trashObjectFile" class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash fileManagement"></span></li>	
+													<li id="" class="newObjectFile ui-state-default ui-corner-all fileManagement" title=".ui-icon-document"><span class="ui-icon ui-icon-document"></span>	
+													<li id="" class="openObjectFile ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open fileManagement"></span></li>
+													<li id="" id class="saveObjectFile ui-state-default ui-corner-all ui-state-default" title=".ui-icon-arrowthick-1-n"><span class="ui-icon ui-icon-arrowthick-1-n fileManagement"></span></li>			
+													<li id="" class="trashObjectFile ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash fileManagement"></span></li>	
 
 													
 												</ul><br>
@@ -187,15 +195,15 @@
 				
 				<div id="tabs-2">
 						<div id="ediot">						
-							<textarea class="codeEditor" name="objectCode" rows="40" cols="120"></textarea>
+							<textarea class="codeEditor" id="objectCode" rows="40" cols="120"></textarea>
 						</div>
 				
 						<div>
 							<ul id="codeFileManagement">								
-								<li id="newCodeFile" class="ui-state-default ui-corner-all" title=".ui-icon-document"><span class="ui-icon ui-icon-document fileManagement"></span>	
-								<li id="openCodeFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open fileManagement"></span></li>
-								<li id="saveCodeFile" id class="ui-state-default ui-corner-all ui-state-default" title=".ui-icon-arrowthick-1-n"><span class="ui-icon ui-icon-arrowthick-1-n fileManagement"></span></li>			
-								<li id="trashCodeFile" class="ui-state-default ui-corner-all fileManagement" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>	
+								<li id="" class="newObjectFile ui-state-default ui-corner-all" title=".ui-icon-document"><span class="ui-icon ui-icon-document fileManagement"></span>	
+								<li id="" class="openObjectFile ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open fileManagement"></span></li>
+								<li id="" id class="saveObjectFile ui-state-default ui-corner-all ui-state-default" title=".ui-icon-arrowthick-1-n"><span class="ui-icon ui-icon-arrowthick-1-n fileManagement"></span></li>			
+								<li id="" class="trashObjectFile ui-state-default ui-corner-all fileManagement" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>	
 
 							</ul><br>
 						</div>
