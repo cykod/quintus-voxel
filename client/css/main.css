@@ -35,6 +35,11 @@ a img {
 
 }
 
+
+#objectNameTextField {
+	margin-bottom:50px;
+}
+
 #objectFileManagement li{
 	width: 18px;
 	float: left;

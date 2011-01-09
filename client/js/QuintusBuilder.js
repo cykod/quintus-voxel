@@ -17,6 +17,7 @@ var QuintusBuilder = {};
   var scene;
 
   q.initialize = function(dom) {
+	q.dom = dom;
     q.renderer = new THREE.CanvasRenderer( false );
 
     dimensions = { w: $(dom).width(), h: $(dom).height() };
@@ -40,11 +41,15 @@ var QuintusBuilder = {};
     setInterval(q.loop, 1000 / 60);
 
 
-    this.loadObject('default');
+ 
   }
 
   q.loadObject = function(name) {
     var objList = QStorage.loadObject(name);
+
+	$.each(objList,function() {
+      removeVoxel(this.object);
+    });
 
     $.each(objList,function() {
       addVoxel(this.x,this.y,this.z);
@@ -155,9 +160,9 @@ var QuintusBuilder = {};
   }
 
   q.setupMouse = function() {
-
-    document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-    document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+	
+    q.dom.bind( 'mousemove', onDocumentMouseMove, false );
+    q.dom.bind( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'keydown', onDocumentKeyDown, false );
     document.addEventListener( 'keyup', onDocumentKeyUp, false );
 
@@ -220,7 +225,6 @@ var QuintusBuilder = {};
 
         if ( intersects[ 0 ].object != plane ) {
           removeVoxel( intersects[ 0 ].object );
-          q.saveObject('default');
         }
 
       } else {
@@ -230,7 +234,6 @@ var QuintusBuilder = {};
                    Math.floor(position.y / 50),
                    Math.floor(position.z / 50));
 
-           q.saveObject('default');
         }
 
       }

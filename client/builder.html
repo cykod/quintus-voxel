@@ -20,28 +20,79 @@
 		<script type="text/javascript">
                   var initialized = false;
 
+				  function fileLister(){
+					
+					files = "<ul>";
+					$.each(QStorage.listObjects(),function() {
+					   files += '<li> <a class="objectOpenDialogue" href="" data-name="';
+					   files += this 
+					   files += '">' + this
+					   files += '</a></li>'
+					});
+					
+					files += "</ul>"
+					
+					return files;
+	
+					
+				}
+
                   $(function(){
 
-
+					
                       // Tabs
                       QuintusBuilder.initialize($("#builder"));
 
                       $('#tabs').bind('tabsselect', function(event, ui) {
-                          if(!initialized && ui.index == 1) {
+                          if(!initialized && ui.index == 2) {
                             initialized = true;
                             QuintusRenderer.initialize($("#arena"));
                             QuintusRenderer.setScene(Scene1);
                           }
                           if(ui.index == 0) {
                             Quintus.active = 'builder';
-                          } else if(ui.index == 1) {
+                          } else if(ui.index == 2) {
                             Quintus.active = 'arena';
                           }
                         });
 
                       Quintus.active = 'builder'
                       $('#tabs').tabs();
-                      });
+                    
+
+		//Menu Functionality
+					
+				//Save
+						
+				
+ 					
+						$('#saveObjectFile').click(function(){
+							if($('#objectName').val() ==''){
+								alert("Please Enter an Object Name")
+							} else {
+								
+								QuintusBuilder.saveObject($('#objectName').val());
+								alert("Saved Object " + $('#objectName').val())
+							}
+							
+							
+													
+						});
+				//Load
+						
+						$('#openObjectFile').click(function(){
+							
+								
+							
+							
+							$(fileLister()).dialog();
+							$('.objectOpenDialogue').click(function(){
+								$('#objectName').val($(this).data("name"));
+								QuintusBuilder.loadObject($(this).data("name"));
+							});
+						});
+					
+ 					});
 		</script>
 		
 		
@@ -65,7 +116,12 @@
 				<div id="tabs-1">		
 					<ul id="objectsMenu">
 				
-						
+								<li><div id="objectNameTextField">
+									Object Name:
+											<input type="text" name="objectName" value="" id="objectName">
+									</div>	
+									
+								</li>
 						
 <!-- CUBE BUTTON -->	
 						
@@ -109,10 +165,10 @@
 													<li id="saveObjectFile" id class="ui-state-default ui-corner-all ui-state-default" title=".ui-icon-arrowthick-1-n"><span class="ui-icon ui-icon-arrowthick-1-n fileManagement"></span></li>			
 													<li id="trashObjectFile" class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash fileManagement"></span></li>	
 
+													
 												</ul><br>
 											</div>
-
-
+					
 
 				</div>
 
