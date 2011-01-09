@@ -53,25 +53,18 @@
 <!-- Jquery Tabs for Menu-->
 				
 				<ul>
-					<li><a href="#tabs-1">Object</a></li>
-					<li><a href="#tabs-2">Arena</a></li>
-					<li><a href="#tabs-3">Code Editor</a></li>
+					<li><a href="#tabs-1">Object Editor</a></li>
+					<li><a href="#tabs-2">Code Editor</a></li>
+					<li><a href="#tabs-3">Arena Editor</a></li>
+					<li><a href="#tabs-4">Arena</a></li>
 				</ul>
 				
 <!--Object Editor -->
 				
 				<div id="tabs-1">		
 					<ul id="objectsMenu">
-						<li>
-							
-<!-- File Management -->
-							
-							<ul id="fileManagement">	
-								<li id="openFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open"></span></li>
-								<li id="saveFile" class="ui-state-default ui-corner-all" title=".ui-icon-document"><span class="ui-icon ui-icon-document"></span>
-								<li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>	
-
-							</ul>
+				
+						
 						
 <!-- CUBE BUTTON -->	
 						
@@ -108,37 +101,64 @@
 					
 					
                                         <div class='clear'></div>
+											<div>
+												<ul id="objectFileManagement">								
+													<li id="newObjectFile" class="ui-state-default ui-corner-all fileManagement" title=".ui-icon-document"><span class="ui-icon ui-icon-document"></span>	
+													<li id="openObjectFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open fileManagement"></span></li>
+													<li id="saveObjectFile" id class="ui-state-default ui-corner-all ui-state-default" title=".ui-icon-arrowthick-1-n"><span class="ui-icon ui-icon-arrowthick-1-n fileManagement"></span></li>			
+													<li id="trashObjectFile" class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash fileManagement"></span></li>	
+
+												</ul><br>
+											</div>
+
+
+
 				</div>
-				
-				
-				
+
+
+
+
 			
-				
-                                <div id='tabs-2'>
-<!-- Arena -->
-			                              <div id='arena'></div>
-                                </div>
-			
+
 			
 <!-- Code Editor -->
 			
 				
-				<div id="tabs-3">
-					
-						<ul id="fileManagement">	
-							<li id="openFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open"></span></li>
-							<li id="saveFile" class="ui-state-default ui-corner-all" title=".ui-icon-document"><span class="ui-icon ui-icon-document"></span>
-							<li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>	
-
-						</ul>
-						
+				<div id="tabs-2">
 						<div id="ediot">						
 							<textarea class="codeEditor" name="objectCode" rows="40" cols="120"></textarea>
 						</div>
+				
+						<div>
+							<ul id="codeFileManagement">								
+								<li id="newCodeFile" class="ui-state-default ui-corner-all" title=".ui-icon-document"><span class="ui-icon ui-icon-document fileManagement"></span>	
+								<li id="openCodeFile" class="ui-state-default ui-corner-all" title=".ui-icon-folder-open"><span class="ui-icon ui-icon-folder-open fileManagement"></span></li>
+								<li id="saveCodeFile" id class="ui-state-default ui-corner-all ui-state-default" title=".ui-icon-arrowthick-1-n"><span class="ui-icon ui-icon-arrowthick-1-n fileManagement"></span></li>			
+								<li id="trashCodeFile" class="ui-state-default ui-corner-all fileManagement" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>	
+
+							</ul><br>
+						</div>
+				
 				</div>
-			</div>
-		</div>
+
+
+
+				   <div id='tabs-3'>
+<!-- Arena -->
+						<div id='arena'></div>
+				   </div>
+
+
+
+
+<!-- Arena Live Editor -->		
 		
+			   <div id='tabs-4'>
+						<div id='arenaLive'>Hello</div>
+					
+				</div>
+				</div>
+			</div>		
 		
 		
 	</body>

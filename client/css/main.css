@@ -29,11 +29,24 @@ a img {
 	margin-bottom: 5px;
 }
 
-#fileManagement {
+#objectFileManagement {
 	list-style-type: none;
+	clear:both;
+
 }
 
-#fileManagement li{
+#objectFileManagement li{
+	width: 18px;
+	float: left;
+}
+
+#codeFileManagement {
+	list-style-type: none;
+	clear:both;
+
+}
+
+#codeFileManagement li{
 	width: 18px;
 	float: left;
 }
