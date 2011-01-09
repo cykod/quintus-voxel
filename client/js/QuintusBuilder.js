@@ -38,6 +38,21 @@ var QuintusBuilder = {};
     q.setupKeyboard();
 
     setInterval(q.loop, 1000 / 60);
+
+
+    this.loadObject('default');
+  }
+
+  q.loadObject = function(name) {
+    var objList = QStorage.loadObject(name);
+
+    $.each(objList,function() {
+      addVoxel(this.x,this.y,this.z);
+    });
+  }
+
+  q.saveObject = function(name) {
+   QStorage.saveObject(name,objects);
   }
 
   q.setupKeyboard = function() {
@@ -205,6 +220,7 @@ var QuintusBuilder = {};
 
         if ( intersects[ 0 ].object != plane ) {
           removeVoxel( intersects[ 0 ].object );
+          q.saveObject('default');
         }
 
       } else {
@@ -214,6 +230,7 @@ var QuintusBuilder = {};
                    Math.floor(position.y / 50),
                    Math.floor(position.z / 50));
 
+           q.saveObject('default');
         }
 
       }
