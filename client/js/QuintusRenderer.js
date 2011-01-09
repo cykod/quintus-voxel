@@ -298,7 +298,10 @@ Voxel.prototype.backOff = function(o2) {
     o2.group.explode(this.velocity);
     return;
   }
-  this.velocity.set(0,0,0);
+  this.velocity.y = 0;
+  this.velocity.multiplyScalar(0.4);
+  o2.velocity.addSelf(this.velocity);
+  this.velocity.multiplyScalar(-1);
 
   
   var diff =this.position.clone().subSelf(o2.position);
@@ -457,7 +460,8 @@ VoxelGroup.prototype.explode = function(v) {
 
 
 VoxelGroup.prototype.backOff = function(objects) {
-  this.velocity.set(0,0,0);
+  this.velocity.y = 0;
+  this.velocity.multiplyScalar(-0.2);
 
   var myobj = objects[0];
   var otherobj = objects[1];
