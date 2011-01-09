@@ -261,30 +261,32 @@ var QuintusBuilder = {};
 
 
   q.loop = function() {
-    mouse3D = projector.unprojectVector( mouse2D.clone(), q.camera );
-    ray.direction = mouse3D.subSelf( q.camera.position ).normalize();
+    if(Quintus.active == 'builder') {
+      mouse3D = projector.unprojectVector( mouse2D.clone(), q.camera );
+      ray.direction = mouse3D.subSelf( q.camera.position ).normalize();
 
-    var intersects = ray.intersectScene( scene );
+      var intersects = ray.intersectScene( scene );
 
-    // console.log( intersects );
+      // console.log( intersects );
 
-    if ( intersects.length > 0 ) {
+      if ( intersects.length > 0 ) {
 
-      if ( intersects[ 0 ].face != rollOveredFace ) {
+        if ( intersects[ 0 ].face != rollOveredFace ) {
 
-        if ( rollOveredFace ) rollOveredFace.materials = [];
-        rollOveredFace = intersects[ 0 ].face;
-        rollOveredFace.materials = [ new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5 } ) ];
+          if ( rollOveredFace ) rollOveredFace.materials = [];
+          rollOveredFace = intersects[ 0 ].face;
+          rollOveredFace.materials = [ new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5 } ) ];
+        }
+
+      } else if ( rollOveredFace ) {
+          rollOveredFace.materials = [];
+          rollOveredFace = null;
+
       }
 
-    } else if ( rollOveredFace ) {
-      rollOveredFace.materials = [];
-      rollOveredFace = null;
-
+      q.updateCamera();
+      q.renderer.render(q.scene,q.camera);
     }
-
-    q.updateCamera();
-    q.renderer.render(q.scene,q.camera);
   }
 
 })(QuintusBuilder);

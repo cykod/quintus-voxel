@@ -9,6 +9,7 @@
 	
 		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8.7.custom.min.js"></script>
+                <script type='text/javascript' src='js/jquery.Storage.js'></script>
 		<script src='js/Three/ThreeExtras.js'></script>
 		<script src='js/Three/Stats.js'></script>
 		<script src='js/Quintus.js'></script>
@@ -23,15 +24,21 @@
                       // Tabs
                       QuintusBuilder.initialize($("#builder"));
 
-                      $('#tabs').tabs();
                       $('#tabs').bind('tabsselect', function(event, ui) {
                           if(!initialized && ui.index == 1) {
                             initialized = true;
                             QuintusRenderer.initialize($("#arena"));
                             QuintusRenderer.setScene(Scene1);
                           }
+                          if(ui.index == 0) {
+                            Quintus.active = 'builder';
+                          } else if(ui.index == 1) {
+                            Quintus.active = 'arena';
+                          }
                         });
 
+                      Quintus.active = 'builder'
+                      $('#tabs').tabs();
                       });
 		</script>
 		

@@ -1,5 +1,7 @@
 
 
+var Quintus = {};
+
 var QuintusRenderer = {};
 
 (function(q) {
@@ -72,7 +74,7 @@ var QuintusRenderer = {};
   }
 
   q.loop = function() {
-    if(currentScene) { 
+    if(currentScene && Quintus.active == 'arena') { 
       q.updateCamera();
       currentScene.stepCore(60/1000);
       q.renderer.render(currentScene.scene,q.camera);
