@@ -382,6 +382,8 @@ VoxelGroup.prototype.detect = function(matcher) {
   }
 
 VoxelGroup.prototype.collide = function(obj,t) {
+  return false;	
+	
   if (!t) t=0;
   // Return the blocks that collided
   var blocks = this.detect(function(o2) { 

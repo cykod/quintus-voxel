@@ -52,6 +52,14 @@ QStorage = {};
     return objs[name] || {};
   }
 
+  c.removeObject = function(name){
+	var objs = c.get("Objects");
+	
+	delete objs[name];
+	
+	c.set('Objects',objs);
+}
+
   return c;
   })(QStorage);
 

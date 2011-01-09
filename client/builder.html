@@ -101,6 +101,18 @@
 							$('#objectCode').val('');
 						});
 					
+				// Delete
+					
+						$(".trashObjectFile").click(function(){
+							var answer = confirm ("Are you sure you want to delete this file? (There is no undo)")
+							if (answer){
+								QStorage.removeObject($("#objectName").val());
+								alert($("#objectName").val()+" Deleted")}
+							else{
+								alert("Object Not Deleted")}
+							
+						})
+					
 					
 					
 					
@@ -214,6 +226,9 @@
 
 				   <div id='tabs-3'>
 <!-- Arena -->
+
+					
+
 						<div id='arena'></div>
 				   </div>
 
