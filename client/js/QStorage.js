@@ -15,8 +15,9 @@ QStorage = {};
   }
 
 
-  c.saveObject = function(name,data) {
+  c.saveObject = function(name,data,code) {
     var objs = c.get('Objects');
+
 
     var savedObj = [];
     $.each(data,function() {
@@ -28,7 +29,10 @@ QStorage = {};
         code: this.code
       });
     });
-    objs[name] = savedObj;
+
+    var object = { code: code, objects: savedObj };
+
+    objs[name] = object;
     c.set('Objects',objs);
   }
 
@@ -45,7 +49,7 @@ QStorage = {};
   c.loadObject = function(name) {
     var objs = c.get("Objects");
 
-    return objs[name] || [];
+    return objs[name] || {};
   }
 
   return c;
