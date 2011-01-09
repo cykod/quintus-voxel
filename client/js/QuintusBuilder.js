@@ -45,7 +45,11 @@ var QuintusBuilder = {};
   }
 
   q.loadObject = function(name) {
-    var objList = QStorage.loadObject(name);
+    var objectData = QStorage.loadObject(name);
+    var objList = objectData['objects'];
+
+    var code =objectData['code']
+    // Set code text area
 
     q.clear();
 
@@ -55,7 +59,8 @@ var QuintusBuilder = {};
   }
 
   q.saveObject = function(name) {
-   QStorage.saveObject(name,objects);
+   var code= ''; // Set this; 
+   QStorage.saveObject(name,objects,code);
   }
 
   q.setupKeyboard = function() {
