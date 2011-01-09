@@ -13,6 +13,7 @@ a img {
 #objectsMenu {
 	list-style-type:none;
 	width: 180px;
+        float:left;
 }
 #toolSize {
 	width: 18px;
@@ -40,3 +41,7 @@ a img {
 #objectCanvas{
 	float: left;
 }
+
+#builder { float:left;  width:600px; height:400px; }
+
+.clear { clear:both; }

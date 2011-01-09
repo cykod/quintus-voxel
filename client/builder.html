@@ -10,6 +10,15 @@
 		<script src="js/BespinEmbedded.js"></script>
 		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8.7.custom.min.js"></script>
+	<script src='js/Three/Three.js'></script>
+	<script src='js/Three/Cube.js'></script>
+	<script src='js/Three/Plane.js'></script>
+	<script src='js/Three/Stats.js'></script>
+	<script src='js/Three/ImageUtils.js'></script>
+	<script src='js/Three/WebGLRenderer2.js'></script>
+
+	<script src='js/Quintus.js'></script>
+
 
 
 		<script type="text/javascript">
@@ -63,7 +72,8 @@
 					function() { $(this).addClass('ui-state-hover'); }, 
 					function() { $(this).removeClass('ui-state-hover'); }
 				);
-				
+
+                                QuintusBuilder.initialize($("#builder"));
 			});
 		</script>
 		
@@ -124,10 +134,12 @@
 							
 					</ul>
 					
-					
+				        <div id='builder'>
+                                        </div>
 					<!-- OBJECTS CANVAS -->
 					
 					
+                                        <div class='clear'></div>
 				</div>
 				
 				
