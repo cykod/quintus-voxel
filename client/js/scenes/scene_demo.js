@@ -53,6 +53,16 @@
 
     Scene1.intersectionClick = function(intersect) {
       var pt = intersect.point;
-      VoxelGroup(1,QuintusBuilder.getObjects()).pos(pt.x,pt.y+500,pt.z).addTo(this);
+
+      var q = QuintusRenderer;
+      if(QuintusRenderer.isShiftDown) {
+        Voxel(1).pos(q.camera.position.x,50,q.camera.position.z).
+          vel(q.direction.x*200,300,q.direction.z*200).
+          addTo(this);
+
+      } else {
+        VoxelGroup(1,QuintusBuilder.getObjects()).pos(pt.x,pt.y+500,pt.z).addTo(this);
+      }
+
     }
 

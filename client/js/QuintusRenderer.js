@@ -7,9 +7,7 @@ var QuintusRendererBuilder = function(q) {
   var dimensions = {}
   var projector = null;
 
-  var mouse2D, mouse3D, ray,
-  rollOveredFace, isShiftDown = false,
-  isCtrlDown = false;
+  var mouse2D, mouse3D, ray;
   var offset = {};
 
   q.initialize  = function(dom) {
@@ -48,6 +46,10 @@ var QuintusRendererBuilder = function(q) {
 
     dom.bind( 'mousedown', q.mouseClick, false );
     dom.bind( 'mousemove', q.mouseMove, false );
+    document.addEventListener( 'keydown', onDocumentKeyDown, false );
+    document.addEventListener( 'keyup', onDocumentKeyUp, false );
+
+
 
   }
 
@@ -89,6 +91,27 @@ var QuintusRendererBuilder = function(q) {
 
   }
 
+   function onDocumentKeyDown( event ) {
+
+      switch( event.keyCode ) {
+
+        case 16: q.isShiftDown = true; break;
+        case 17: q.isCtrlDown = true; break;
+
+      }
+
+    }
+
+    function onDocumentKeyUp( event ) {
+
+      switch( event.keyCode ) {
+
+        case 16: q.isShiftDown = false; break;
+        case 17: q.isCtrlDown = false; break;
+
+      }
+    }
+
   q.updateCamera = function() {
     if(q.keys['left']) q.cameraAngle -= 5 * Math.PI / 360;
     if(q.keys['right']) q.cameraAngle += 5 * Math.PI / 360;
@@ -110,7 +133,7 @@ var QuintusRendererBuilder = function(q) {
       q.updateCamera();
 
       mouse3D = projector.unprojectVector( mouse2D.clone(), q.camera );
-      ray.direction = mouse3D.subSelf( q.camera.position ).normalize();
+      q.direction = ray.direction = mouse3D.subSelf( q.camera.position ).normalize();
 
       currentScene.stepCore(60/1000);
       q.renderer.render(currentScene.scene,q.camera);
@@ -143,6 +166,7 @@ var QuintusScene = function() {
 
   this.add= function(obj) {
     this.objects[this.objects.length] = obj;
+    obj.scene = this;
     if(obj instanceof Voxel) {
       this.scene.addObject(obj.o);
     } else {
@@ -151,7 +175,10 @@ var QuintusScene = function() {
   }
 
 
-
+  this.addExisting = function(obj) {
+    this.objects[this.objects.length] = obj;
+    obj.scene = this;
+  }
 
   this.collide = function(o1) {
     for(var i=0,len = this.objects.length;i<len;i++) {
@@ -228,6 +255,11 @@ Voxel.prototype.pos = function(x,y,z) {
   return this;
 }
 
+Voxel.prototype.vel = function(x,y,z) {
+   this.velocity.set(x,y,z);
+   return this;
+}
+
 Voxel.prototype.addTo = function(qscene) {
   qscene.add(this);
   return this;
@@ -245,7 +277,7 @@ Voxel.prototype.collide = function(obj,t) {
 }
 
 Voxel.prototype.eachBlock = function(block,collideMethod) {
-  return collideMethod(block,this);
+  return collideMethod(block,this) ? this : null;
 }
 
 Voxel.prototype.blockCollide = function(o1,o2) {
@@ -262,7 +294,12 @@ Voxel.prototype.blockCollide = function(o1,o2) {
 
 
 Voxel.prototype.backOff = function(o2) {
+  if(o2.group) {
+    o2.group.explode(this.velocity);
+    return;
+  }
   this.velocity.set(0,0,0);
+
   
   var diff =this.position.clone().subSelf(o2.position);
 
@@ -295,6 +332,10 @@ Voxel.prototype.backOff = function(o2) {
 
 }
 
+Voxel.prototype.voxelData = function(data) {
+   this.data = data;
+   return this;
+}
 
 VoxelGroup  = function(dim,voxelData) {
   if(false === (this instanceof VoxelGroup)) {
@@ -309,7 +350,8 @@ VoxelGroup  = function(dim,voxelData) {
 
     this.objects.push(new Voxel(dim,v.material).pos(v.x*dim*BASE_DIM,
                                                     v.y*dim*BASE_DIM,
-                                                    v.z*dim*BASE_DIM).addToGroup(this));
+                                                    v.z*dim*BASE_DIM).addToGroup(this).
+                                                  voxelData(v));
   }
 
   this.velocity = new THREE.Vector3(0,0,0);
@@ -382,7 +424,6 @@ VoxelGroup.prototype.detect = function(matcher) {
   }
 
 VoxelGroup.prototype.collide = function(obj,t) {
-  return false;	
 	
   if (!t) t=0;
   // Return the blocks that collided
@@ -397,6 +438,21 @@ VoxelGroup.prototype.eachBlock = function(block,collideMethod) {
   return this.detect(function(o2) { 
       return collideMethod(block,o2) ? o2 : null;
     });
+}
+
+
+VoxelGroup.prototype.explode = function(v) {
+  var grp = this;
+  $.each(this.objects,function() {
+    grp.scene.addExisting(this);
+    this.group = null;
+    this.scale.multiplyScalar(0.9);
+    this.velocity = (new THREE.Vector3(v.x,10,v.z)).
+                       addSelf(new THREE.Vector3(this.data.x * 20,
+                                                 this.data.y * 20,
+                                                 this.data.z * 20));
+  });
+  this.objects = [];
 }
 
 
