@@ -47,9 +47,7 @@ var QuintusBuilder = {};
   q.loadObject = function(name) {
     var objList = QStorage.loadObject(name);
 
-	$.each(objList,function() {
-      removeVoxel(this.object);
-    });
+    q.clear();
 
     $.each(objList,function() {
       addVoxel(this.x,this.y,this.z);
@@ -189,6 +187,13 @@ var QuintusBuilder = {};
     objects.push(obj);
 
     scene.addObject( voxel );
+  }
+
+  q.clear = function() {
+    $.each(objects,function() {
+     scene.removeObject(this.object);
+    });
+    q.objects =[];
   }
 
   function removeVoxel(object) {
